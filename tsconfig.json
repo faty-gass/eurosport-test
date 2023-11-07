@@ -16,5 +16,11 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "cypress/PlayerPresentationCard.cy.tsx",
+    "cypress/CloseIcon.cy.tsx",
+    "cypress/WinningGameModal.cy.tsx",
+    "cypress/Home.cy.tsx"
+  ]
 }

@@ -13,8 +13,8 @@ export class PlayerData {
   points: string;
   totalTimePlayed = "";
   wins = 0;
-  loses = 0;
-  winningGames = [];
+  losses = 0;
+  winningGames: Match[] = [];
 
   constructor(player: Player, matches: Match[]) {
     this.id = player.id;
@@ -22,11 +22,11 @@ export class PlayerData {
     this.lastname = player.lastname;
     this.pictureUrl = player.picture.url;
     this.flagUrl = player.country.picture.url;
-    this.age = `${player.stats.age}ans`;
+    this.age = `${player.stats.age} y.o.`;
     this.height = `${player.stats.height / 100}m`;
     this.weight = `${player.stats.weight / 1000}kg`;
     this.rank = player.stats.rank;
-    this.points = ` ${player.stats.points}points`;
+    this.points = ` ${player.stats.points}`;
     this.getNumberOfWinsAndLoses(player.id, matches);
     this.calculateTotalGamesDuration(matches);
   }
@@ -36,8 +36,11 @@ export class PlayerData {
     const endTime = new Date(end).getTime();
 
     const matchDuration = endTime - startTime;
-    return Math.floor((matchDuration % 3600000) / 60000);
+    const hours = Math.floor(matchDuration / 3600000);
+    const minutes = Math.floor((matchDuration % 3600000) / 60000);
+    return `${hours}hrs ${minutes}mins`;
   }
+
   private getNumberOfWinsAndLoses(playerId: string, matches: Match[]) {
     const winningMatches = matches
       .filter((match) => match.winner.id === playerId)
@@ -45,10 +48,14 @@ export class PlayerData {
         return {
           ...match,
           duration: this.getDurationInMinutes(match.startTime, match.endTime),
+          playerOne: `${match.players[0].firstname} ${match.players[0].lastname}`,
+          playerTwo: `${match.players[1].firstname} ${match.players[1].lastname}`,
         };
       });
+
+    this.winningGames = winningMatches;
     this.wins = winningMatches.length;
-    this.loses = matches.length - this.wins;
+    this.losses = matches.length - this.wins;
   }
 
   private calculateTotalGamesDuration(matches: Match[]) {
@@ -57,17 +64,14 @@ export class PlayerData {
       const startTime = new Date(match.startTime).getTime();
       const endTime = new Date(match.endTime).getTime();
 
-      // Calculate the duration of the match in milliseconds
       const matchDuration = endTime - startTime;
 
-      // Add the duration of the match to the total duration
       totalDuration += matchDuration;
     }
 
-    // Convert the total duration to hours, minutes, and seconds
     const hours = Math.floor(totalDuration / 3600000);
     const minutes = Math.floor((totalDuration % 3600000) / 60000);
 
-    this.totalTimePlayed = `${hours} hours, ${minutes} minutes`;
+    this.totalTimePlayed = `${hours}hrs ${minutes}mins`;
   }
 }

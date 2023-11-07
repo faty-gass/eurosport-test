@@ -36,6 +36,9 @@ export interface Match {
   winner: Player;
   startTime: string;
   endTime: string;
+  playerOne: string;
+  playerTwo: string;
+  duration?: string;
 }
 
 export interface Query {

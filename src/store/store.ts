@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import playerReducer from "./playersState";
-// ...
+import playerReducer from "./playerStore";
 
 export const store = configureStore({
   reducer: {
@@ -12,3 +11,13 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+// fetching store for component testing
+export const getStore = () =>
+  configureStore({
+    reducer: {
+      players: playerReducer,
+    },
+  });
+// @ts-ignore
+window.store = store;

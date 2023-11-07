@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Player } from "../data/api-schema";
-import { PlayerData } from "../data/playerData";
+import { PlayerData } from "../data/player-data";
 
 interface playerState {
   value: PlayerData[];

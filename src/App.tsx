@@ -3,8 +3,6 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 import Home from "./components/Home";
 
-import "./App.css";
-
 const App: React.FC = () => {
   const client = new ApolloClient({
     uri: "https://kf9p4bkih6.execute-api.eu-west-1.amazonaws.com/dev/",
@@ -13,7 +11,7 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <div id="app">
+      <div>
         <Home></Home>
       </div>
     </ApolloProvider>
